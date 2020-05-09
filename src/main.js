@@ -10,13 +10,16 @@ import 'jquery/dist/jquery.js'
 
 import app from './App.vue'
 import login from './Login.vue'
+import VehicleFlowDetection from './VehicleFlowDetection.vue'
 
 
 Vue.use(VueRouter)
 
 var routerObj=new VueRouter({
   routes:[
-    {path:'/login', component: login}
+    {path:'/',redirect:'/index'},
+    {path:'/login', component: login},
+    {path:'/VehicleFlowDetection',component: VehicleFlowDetection},
   ]
 })
 
@@ -32,7 +35,8 @@ var vm = new Vue({
     },
     components:{
         app,
-        login
+        login,
+        VehicleFlowDetection,
     },
     router:routerObj,
     // render:c=>c(app)

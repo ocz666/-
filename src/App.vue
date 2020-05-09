@@ -4,7 +4,7 @@
       <li class="layui-nav-item">
         <router-link to="/index" tag="a">首页</router-link>
       </li>
-      <li class="layui-nav-item layui-this"><router-link to="/index" tag="a">路口流量</router-link></li>
+      <li class="layui-nav-item layui-this"><router-link to="/VehicleFlowDetection" tag="a">路口流量</router-link></li>
       <li class="layui-nav-item"><router-link to="/index" tag="a">车牌识别</router-link></li>
       <li class="layui-nav-item">
         <a herf="javascript:">机动车违规</a>
