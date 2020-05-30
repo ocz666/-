@@ -28,7 +28,8 @@ module.exports={
             {test:/\.m?js$/,use:'babel-loader',exclude:/(node_modules|bower_components)/},
             {test:/\.js\.map$/,use:'file-loader'},
             {test:/\.vue$/,use:'vue-loader'},
-            {test:/\.(ttf|eot|svg|woff|woff2)/,use:'file-loader'}
+            {test:/\.(ttf|eot|svg|woff|woff2)/,use:'file-loader'},
+            {test:/\.(mp4|mpeg|avi|ogv|webm)/,use:'file-loader'}
         ]
     },
     resolve:{

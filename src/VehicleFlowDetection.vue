@@ -1,32 +1,133 @@
 <template>
   <div>
+    <!-- 监控视频 -->
+  
+
+
+    <div class="flex-container">
+      <video src="./static/videos/video-02.mp4" class="flex-item" autoplay></video>
+      <div class="flex-item" v-for="(item ,i) in playerOptions" :key='i'>
+        <video-player
+          class="video-player vjs-custom-skin"
+          ref="videoPlayer"
+          :playsinline="true"
+          :options="item"
+        >
+        </video-player>
+      </div>
+      <div class="flex-item">
+        <img src="/static/imgs/addvideo.png" class="img_css" alt="添加视频" @onclick="addVideo">
+      </div>
+    </div>
+
+    <!-- 数据表格 -->
     <table class="layui-hide" id="test"></table>
   </div>
 </template>
 
 <script>
-export default{
-    mounted() {
-        layui.use('table', function(){
+export default {
+  data() {
+    return {
+      playerOptions: [],
+      CarFlow: [],
+    };
+  },
+  methods: {
+    getCarFlow() {
+      this.$jsonp("http://localhost:8080/api/getcarflow")
+        .then((json) => {
+          layui.use("table", function() {
+            console.log(json);
+            this.CarFlow = json;
             var table = layui.table;
-            
             table.render({
-                elem: '#test'
-                ,url:[
-                    {id:'2020-5-9-12:12:59',loc:'xx路口',number:'200',degree:'严重'}
-                ]
-                ,cols: [[
-                {field:'id', width:80, title: '时间', sort: true},
-                {field:'loc', width:80, title: '地点'},
-                {field:'number', width:200, title: '每分钟车流量', sort: true},
-                {field:'degree', width:120, title: '拥塞程度', sort: true},
-                ]]
-                ,page: true
+              elem: "#test",
+              data: json,
+              page: true,
+              cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              cols: [
+                [
+                  { field: "ID", width: 100, title: "ID" },
+                  { field: "time", width: 200, title: "时间" },
+                  { field: "loc", width: 500, title: "地点" },
+                  { field: "number", width: 326, title: "车流量", sort: true },
+                  {
+                    field: "degree",
+                    width: 400,
+                    title: "拥塞程度",
+                    sort: true,
+                  },
+                ],
+              ],
             });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
+    getVideosUrl() {
+      this.$jsonp("http://localhost:8080/api/getvideo")
+        .then((json) => {
+          console.log(json);
+          var playeroptions = [];
+          for (let item in json) {
+            var playeroption = {
+              playbackRates: [0.5, 1.0, 1.5, 2.0],
+              autoplay: false,
+              muted: true,
+              language: "zh-CN",
+              fluid: true,
+              sources: [
+                {
+                  type: "video/mp4",
+                  src: "/static/" + json[item],
+                  // src: json[item],
+                },
+              ],
+              notSupportedMessage: "此视频暂无法播放，请稍后再试",
+            };
+            playeroptions.push(playeroption);
+          }
+          this.playerOptions=playeroptions;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addVideo(){
+
     }
+  },
+  created(){
+  },
+  mounted() {
+    this.getCarFlow();
+    this.getVideosUrl();
+  },
+};
 </script>
 
 <style scoped>
+
+.flex-container {
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  background-color: lightgrey;
+  flex-wrap: wrap;
+}
+
+.flex-item {
+  background-color: cornflowerblue;
+  width: 30%;
+  height: 260px;
+  margin: 10px;
+}
+.img_css{
+    height: 260px;
+    width:100%;
+}
+
 </style>
