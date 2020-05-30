@@ -33,7 +33,6 @@ var routerObj=new VueRouter({
 })
 
 
-  
 var vm = new Vue({
     el:'#app',
     data:{

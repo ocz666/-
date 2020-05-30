@@ -1,12 +1,8 @@
 <template>
   <div>
-    <!-- 监控视频 -->
-  
-
-
     <div class="flex-container">
-      <video src="./static/videos/video-02.mp4" class="flex-item" autoplay></video>
-      <div class="flex-item" v-for="(item ,i) in playerOptions" :key='i'>
+      <!-- 监控视频 -->
+      <div class="flex-item" v-for="(item, i) in playerOptions" :key="i">
         <video-player
           class="video-player vjs-custom-skin"
           ref="videoPlayer"
@@ -15,8 +11,19 @@
         >
         </video-player>
       </div>
+
+      <!-- 添加视频 -->
       <div class="flex-item">
-        <img src="/static/imgs/addvideo.png" class="img_css" alt="添加视频" @onclick="addVideo">
+        <form>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">添加监控视频</label>
+            <input
+              type="file"
+              class="form-control-file"
+              @change="addVideo($event)"
+            />
+          </div>
+        </form>
       </div>
     </div>
 
@@ -82,26 +89,26 @@ export default {
               sources: [
                 {
                   type: "video/mp4",
-                  src: "/static/" + json[item],
+                  // src: "/static/" + json[item],
                   // src: json[item],
+                  src: "/static/videos/movie.mp4",
                 },
               ],
               notSupportedMessage: "此视频暂无法播放，请稍后再试",
             };
             playeroptions.push(playeroption);
           }
-          this.playerOptions=playeroptions;
+          this.playerOptions = playeroptions;
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    addVideo(){
-
-    }
+    addVideo(event) {
+      alert(event.target.files[0].name);
+    },
   },
-  created(){
-  },
+  created() {},
   mounted() {
     this.getCarFlow();
     this.getVideosUrl();
@@ -110,7 +117,6 @@ export default {
 </script>
 
 <style scoped>
-
 .flex-container {
   display: -webkit-flex;
   display: flex;
@@ -125,9 +131,8 @@ export default {
   height: 260px;
   margin: 10px;
 }
-.img_css{
-    height: 260px;
-    width:100%;
+.img_css {
+  height: 260px;
+  width: 100%;
 }
-
 </style>
