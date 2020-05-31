@@ -22,6 +22,7 @@
               class="form-control-file"
               @change="addVideo($event)"
             />
+            <input type="button" value="确定" @click="reload" />
           </div>
         </form>
       </div>
@@ -36,11 +37,17 @@
 export default {
   data() {
     return {
+      addvideoflag:false,
       playerOptions: [],
       CarFlow: [],
     };
   },
   methods: {
+    reload() {
+      if(this.addvideoflag){
+        this.$forceUpdate();
+      }
+    },
     getCarFlow() {
       this.$jsonp("http://localhost:8080/api/getcarflow")
         .then((json) => {
@@ -89,9 +96,9 @@ export default {
               sources: [
                 {
                   type: "video/mp4",
-                  // src: "/static/" + json[item],
+                  src: "/static/videos/" + json[item].url,
                   // src: json[item],
-                  src: "/static/videos/movie.mp4",
+                  // src: "/static/videos/movie.mp4",
                 },
               ],
               notSupportedMessage: "此视频暂无法播放，请稍后再试",
@@ -105,7 +112,17 @@ export default {
         });
     },
     addVideo(event) {
-      alert(event.target.files[0].name);
+      this.$jsonp("http://localhost:8080/api/addvideo", {
+        path: event.target.files[0].name,
+      })
+        .then((json) => {
+          if(json.status===200){
+            this.addvideoflag=true;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   created() {},
@@ -123,6 +140,7 @@ export default {
   width: 100%;
   background-color: lightgrey;
   flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .flex-item {
@@ -130,9 +148,5 @@ export default {
   width: 30%;
   height: 260px;
   margin: 10px;
-}
-.img_css {
-  height: 260px;
-  width: 100%;
 }
 </style>
