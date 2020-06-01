@@ -17,6 +17,8 @@ import 'jquery/dist/jquery.js'
 import app from './App.vue'
 import login from './Login.vue'
 import VehicleFlowDetection from './VehicleFlowDetection.vue'
+import LPNrecognition from './LPNrecognition.vue'
+import Index from './Index.vue'
 
 
 Vue.use(VueRouter)
@@ -26,9 +28,11 @@ Vue.use(VueJsonp)
 
 var routerObj=new VueRouter({
   routes:[
-    {path:'/',redirect:'/index'},
+    {path:'/',redirect:'/Index'},
     {path:'/login', component: login},
     {path:'/VehicleFlowDetection',component: VehicleFlowDetection},
+    {path:'/LPNrecognition',component: LPNrecognition},
+    {path:'/Index',component: Index},
   ]
 })
 
@@ -44,6 +48,8 @@ var vm = new Vue({
         app,
         login,
         VehicleFlowDetection,
+        LPNrecognition,
+        Index,
     },
     router:routerObj,
 })

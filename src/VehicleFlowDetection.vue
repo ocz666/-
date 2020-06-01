@@ -4,7 +4,7 @@
       <!-- 监控视频 -->
       <div class="flex-item" v-for="(item, i) in playerOptions" :key="i">
         <video-player
-          class="video-player vjs-custom-skin"
+          class="video-player vjs-custom-skin videocss"
           ref="videoPlayer"
           :playsinline="true"
           :options="item"
@@ -22,7 +22,6 @@
               class="form-control-file"
               @change="addVideo($event)"
             />
-            <input type="button" value="确定" @click="reload" />
           </div>
         </form>
       </div>
@@ -37,17 +36,12 @@
 export default {
   data() {
     return {
-      addvideoflag:false,
+      addvideoflag: false,
       playerOptions: [],
       CarFlow: [],
     };
   },
   methods: {
-    reload() {
-      if(this.addvideoflag){
-        this.$forceUpdate();
-      }
-    },
     getCarFlow() {
       this.$jsonp("http://localhost:8080/api/getcarflow")
         .then((json) => {
@@ -97,8 +91,6 @@ export default {
                 {
                   type: "video/mp4",
                   src: "/static/videos/" + json[item].url,
-                  // src: json[item],
-                  // src: "/static/videos/movie.mp4",
                 },
               ],
               notSupportedMessage: "此视频暂无法播放，请稍后再试",
@@ -116,8 +108,22 @@ export default {
         path: event.target.files[0].name,
       })
         .then((json) => {
-          if(json.status===200){
-            this.addvideoflag=true;
+          if (json.status === 200) {
+            this.playerOptions.push({
+              playbackRates: [0.5, 1.0, 1.5, 2.0],
+              autoplay: false,
+              muted: true,
+              language: "zh-CN",
+              fluid: true,
+              sources: [
+                {
+                  type: "video/mp4",
+                  src: "/static/videos/" + event.target.files[0].name,
+                },
+              ],
+              notSupportedMessage: "此视频暂无法播放，请稍后再试",
+            });
+            alert('添加成功');
           }
         })
         .catch((err) => {
@@ -137,6 +143,10 @@ export default {
 .flex-container {
   display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: left;  
   width: 100%;
   background-color: lightgrey;
   flex-wrap: wrap;
@@ -144,9 +154,18 @@ export default {
 }
 
 .flex-item {
-  background-color: cornflowerblue;
   width: 30%;
-  height: 260px;
+  padding-bottom: 17%;
+  height: 0;
+  overflow:hidden;
   margin: 10px;
+  position: relative;
 }
+.flex-item  video {
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    position: absolute;
+  };
 </style>
