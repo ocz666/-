@@ -15,10 +15,11 @@
       <!-- 添加视频 -->
       <div class="flex-item">
         <form>
-          <div class="form-group">
-            <label for="exampleFormControlFile1">添加监控视频</label>
+          <div class="form-group a-upload">
+            <label for="inputfile">添加监控视频：</label>
             <input
               type="file"
+              value="abc"
               class="form-control-file"
               @change="addVideo($event)"
             />
@@ -123,7 +124,7 @@ export default {
               ],
               notSupportedMessage: "此视频暂无法播放，请稍后再试",
             });
-            alert('添加成功');
+            alert("添加成功");
           }
         })
         .catch((err) => {
@@ -146,26 +147,27 @@ export default {
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  justify-content: left;  
+  justify-content: left;
   width: 100%;
-  background-color: lightgrey;
   flex-wrap: wrap;
   flex-direction: row;
 }
 
 .flex-item {
+  background-color: gray;
   width: 30%;
   padding-bottom: 17%;
   height: 0;
-  overflow:hidden;
+  overflow: hidden;
   margin: 10px;
   position: relative;
 }
-.flex-item  video {
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    position: absolute;
-  };
+.flex-item video {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
 </style>
